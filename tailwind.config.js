@@ -11,9 +11,6 @@ export default {
 
     theme: {
         extend: {
-            colors: {
-                amber: colors.amber,
-            },
             fontFamily: {
                 sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
             },
