@@ -73,6 +73,13 @@
       0 => 'Spatie\\Newsletter\\NewsletterServiceProvider',
     ),
   ),
+  'spatie/laravel-sitemap' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Sitemap\\SitemapServiceProvider',
+    ),
+  ),
   'srmklive/paypal' => 
   array (
     'aliases' => 

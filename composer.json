@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.9",
         "paypal/rest-api-sdk-php": "^1.6",
         "spatie/laravel-newsletter": "^5.3",
+        "spatie/laravel-sitemap": "^7.3",
         "srmklive/paypal": "~3.0"
     },
     "require-dev": {

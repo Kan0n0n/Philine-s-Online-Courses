@@ -34,8 +34,9 @@
     30 => 'Termwind\\Laravel\\TermwindServiceProvider',
     31 => 'Pest\\Laravel\\PestServiceProvider',
     32 => 'Spatie\\Newsletter\\NewsletterServiceProvider',
-    33 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    34 => 'App\\Providers\\AppServiceProvider',
+    33 => 'Spatie\\Sitemap\\SitemapServiceProvider',
+    34 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
+    35 => 'App\\Providers\\AppServiceProvider',
   ),
   'eager' => 
   array (
@@ -56,8 +57,9 @@
     14 => 'Termwind\\Laravel\\TermwindServiceProvider',
     15 => 'Pest\\Laravel\\PestServiceProvider',
     16 => 'Spatie\\Newsletter\\NewsletterServiceProvider',
-    17 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    18 => 'App\\Providers\\AppServiceProvider',
+    17 => 'Spatie\\Sitemap\\SitemapServiceProvider',
+    18 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
+    19 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (

@@ -16,6 +16,10 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\OrderController;
 
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Models\Course; 
+
 // Route::prefix('admin')->middleware(['auth'])->group(function () {
 //     Route::redirect('/', '/admin/courses')->name('admin.dashboard');
 //     Route::resource('courses', AdminCourseController::class)->names('admin.courses');
@@ -31,7 +35,7 @@ use App\Http\Controllers\OrderController;
 Route::prefix('admin')->group(function () {
     Route::get('users/export', [AdminUserController::class, 'exportCsv'])->name('admin.users.export');
 
-    Route::redirect('/', '/admin/orders')->name('admin.orders');
+    Route::redirect('/', '/admin/users')->name('admin.index');
     Route::resource('users', AdminUserController::class)->names('admin.users')->except('show');
     Route::resource('courses', AdminCourseController::class)->names('admin.courses')->except('show');
     Route::resource('categories', AdminCategoryController::class)->names('admin.categories')->except(['show', 'destroy']);
@@ -87,3 +91,23 @@ Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController:
 Route::get('/course/{course}', [CourseController::class, 'show'])->name('course.show');
 require __DIR__ . '/auth.php';
 Route::get('/courses/search', [CourseController::class, 'search'])->name('course.search');
+
+Route::get('/sitemap.xml', function () {
+    // 1. Khởi tạo sitemap
+    $sitemap = Sitemap::create();
+
+    // 2. Thêm các trang tĩnh
+    $sitemap->add(Url::create('/'));
+    $sitemap->add(Url::create('/about'));
+    $sitemap->add(Url::create('/contact'));
+
+    // 3. Thêm các trang động (Khóa học/Sản phẩm) từ Database
+    $courses = Course::all();
+    foreach ($courses as $course) {
+        // Lưu ý: url phải là đường dẫn đầy đủ
+        $sitemap->add(Url::create("/course/{$course->slug}"));
+    }
+
+    // 4. Trả về file xml
+    return $sitemap->toResponse(request());
+});
