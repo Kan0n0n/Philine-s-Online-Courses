@@ -1,5 +1,5 @@
 # 1. Sử dụng PHP 8.2 với Apache
-FROM php:8.4.14-apache
+FROM php:8.4-apache
 
 # 2. Cài đặt các thư viện hệ thống cần thiết
 RUN apt-get update && apt-get install -y \
