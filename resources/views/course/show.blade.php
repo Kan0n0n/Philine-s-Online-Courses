@@ -1,214 +1,150 @@
-
 @if($course)
-
-{{-- 1. CALCULATE IMAGE URL FIRST --}}
+    {{-- 1. LOGIC: Calculate Image URL ONLY ONCE here --}}
     @php
         $videoId = '';
-        $thumbnailUrl = asset('images/placeholder-video.jpg'); // Default image
+        // Default fallback image
+        $thumbnailUrl = asset('images/placeholder-video.jpg'); 
         
-        // Extract Youtube ID
+        // Check if there is a video and extract thumbnail
         if (isset($course->coursedetails[0]) && preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $course->coursedetails[0]->content, $match)) {
             $videoId = $match[1];
             $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg"; 
         }
     @endphp
 
-    {{-- 2. FILL SEO DATA --}}
-    @section('title','Khóa học ' . $course->name)
-    @section('meta_description', Str::limit($course->description, 200))
+    {{-- 2. SEO SECTION: Pass data to Layout --}}
+    @section('title', $course->name)
+    @section('meta_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 155))
     @section('meta_image', $thumbnailUrl) 
+    
+    {{-- 3. CONTENT: Render the page --}}
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ $course->name }}
+            </h2>
+        </x-slot>
 
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $course->name }}
-        </h2>
-    </x-slot>
-
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Left Column - Video and Details -->
-                        <div class="lg:col-span-2">
-                            @php
-                            $videoId = '';
-                            $thumbnailUrl = asset('images/placeholder-video.jpg'); // Ảnh nền mặc định nếu không có video
-                            if (isset($course->coursedetails[0]) && preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $course->coursedetails[0]->content, $match)) {
-                            $videoId = $match[1];
-                            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg"; // Lấy thumbnail từ YouTube
-                            }
-                            @endphp
-
-                            <div class="rounded-xl overflow-hidden shadow-lg mb-6">
-                                <img src="{{ $thumbnailUrl }}" alt="Video Thumbnail" class="w-full aspect-video object-cover">
-                            </div>
-
-                            <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ $course->name }}</h1>
-
-                            <div class="flex items-center mb-4 text-sm text-gray-600">
-                                <div class="flex items-center mr-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                    </svg>
-                                    <span>{{ $course->category->name }}</span>
+        <div class="py-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2">
+                                <div class="rounded-xl overflow-hidden shadow-lg mb-6">
+                                    {{-- USE THE VARIABLE WE CALCULATED AT TOP --}}
+                                    <img src="{{ $thumbnailUrl }}" alt="Video Thumbnail" class="w-full aspect-video object-cover">
                                 </div>
-                                <div class="flex items-center mr-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                    <span>Lớp {{ $course->grade }}</span>
+
+                                <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ $course->name }}</h1>
+                                
+                                {{-- ... (Keep your Course Info: Category, Grade, Time) ... --}}
+                                <div class="flex items-center mb-4 text-sm text-gray-600">
+                                    <div class="flex items-center mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                        <span>{{ $course->category->name }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        <span>Lớp {{ $course->grade }}</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>10 giờ học</span>
+
+                                <div class="mb-8">
+                                    <h2 class="text-lg font-semibold mb-2 text-gray-800">Mô tả khóa học</h2>
+                                    <p class="text-gray-600" style="text-align: justify; line-height: 1.5;">
+                                        {!! nl2br(e($course->description ?? '')) !!}
+                                    </p>
                                 </div>
-                            </div>
 
-                            <div class="mb-8">
-                                <h2 class="text-lg font-semibold mb-2 text-gray-800">Mô tả khóa học</h2>
-                                <p class="text-gray-600" style="text-align: justify; line-height: 1.5;">
-                                    {!! nl2br(e($course->description ?? 'Khóa học này sẽ giúp bạn nắm vững kiến thức và kỹ năng cần thiết để thành công trong môn học. Được thiết kế bởi các giảng viên có nhiều kinh nghiệm, khóa học cung cấp nội dung chất lượng cao và bài tập thực hành phong phú.')) !!}
-                                </p>
-                            </div>
-
-                            <div class="mb-8">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-800">Nội dung khóa học</h2>
-                                <div class="space-y-3">
-                                    @forelse($course->coursedetails as $index => $detail)
-                                    @php
-                                    $detailVideoId = '';
-                                    $detailThumbnailUrl = asset('images/placeholder-video.jpg');
-                                    if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $detail->content ?? '', $match)) {
-                                    $detailVideoId = $match[1];
-                                    $detailThumbnailUrl = "https://img.youtube.com/vi/{$detailVideoId}/hqdefault.jpg";
-                                    }
-                                    @endphp
-
-                                    <div x-data="{ open: false }" class="border border-gray-200 rounded-lg overflow-hidden">
-                                        <!-- Header clickable area -->
-                                        <button @click="open = !open" class="w-full bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer hover:bg-gray-100 focus:outline-none">
-                                            <div class="font-medium text-left">{{ $index + 1 }}. {{ $detail->name }}</div>
-                                            <svg :class="{'transform rotate-180': open}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </button>
-
-                                        <!-- Collapsible content -->
-                                        <div x-show="open" x-collapse class="p-4 bg-white border-t border-gray-200">
-                                            <p class="text-gray-600 text-sm">{{ $detail->description ?? '' }}</p>
-                                            <div class="rounded-xl overflow-hidden shadow-md mb-2">
-                                                <img src="{{ $detailThumbnailUrl }}" alt="Detail Video Thumbnail" class="w-full aspect-video object-cover">
+                                {{-- ... (Keep your Course Content/Accordion logic here) ... --}}
+                                <div class="mb-8">
+                                    <h2 class="text-lg font-semibold mb-4 text-gray-800">Nội dung khóa học</h2>
+                                    <div class="space-y-3">
+                                        @forelse($course->coursedetails as $index => $detail)
+                                            {{-- Calculate logic for Detail Items --}}
+                                            @php
+                                            $detailVideoId = '';
+                                            $detailThumbnailUrl = asset('images/placeholder-video.jpg');
+                                            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $detail->content ?? '', $match)) {
+                                                $detailVideoId = $match[1];
+                                                $detailThumbnailUrl = "https://img.youtube.com/vi/{$detailVideoId}/hqdefault.jpg";
+                                            }
+                                            @endphp
+                                            
+                                            <div x-data="{ open: false }" class="border border-gray-200 rounded-lg overflow-hidden">
+                                                <button @click="open = !open" class="w-full bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer hover:bg-gray-100 focus:outline-none">
+                                                    <div class="font-medium text-left">{{ $index + 1 }}. {{ $detail->name }}</div>
+                                                    <svg :class="{'transform rotate-180': open}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
+                                                <div x-show="open" x-collapse class="p-4 bg-white border-t border-gray-200">
+                                                    <p class="text-gray-600 text-sm mb-2">{{ $detail->description ?? '' }}</p>
+                                                    <div class="rounded-xl overflow-hidden shadow-md mb-2">
+                                                        <img src="{{ $detailThumbnailUrl }}" alt="Detail Thumbnail" class="w-full aspect-video object-cover">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <p class="text-gray-600 text-sm">{{ $detail->content ?? 'Không có nội dung chi tiết.' }}</p>
+                                        @empty
+                                            <p class="text-gray-600">Chưa có nội dung chi tiết.</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-1">
+                                {{-- ... (Your Price, Buy Buttons, and Includes list) ... --}}
+                                <div class="border border-gray-200 rounded-xl shadow-sm p-6 sticky top-4">
+                                    <div class="mb-4">
+                                        <div class="text-3xl font-bold text-blue-600 mb-2">{{ number_format($course->price) }} VND</div>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>Truy cập trọn đời</span>
                                         </div>
                                     </div>
-                                    @empty
-                                    <p class="text-gray-600">Chưa có nội dung chi tiết cho khóa học này.</p>
-                                    @endforelse
 
-                                </div>
-                            </div>
-                        </div>
+                                    @auth
+                                        @if(!auth()->user()->courses->contains($course->id))
+                                            {{-- Buy Buttons --}}
+                                            <form action="{{ route('cart.add', $course) }}" method="POST" class="mb-4">
+                                                @csrf
+                                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center">
+                                                    Thêm vào giỏ hàng
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('cart.buy', $course) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 px-4 rounded-lg">Mua ngay</button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('course.learn', $course->id) }}" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center block">Bắt đầu học</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('login') }}" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg text-center block">Đăng nhập để đăng ký</a>
+                                    @endauth
 
-                        <!-- Right Column - Price and CTA -->
-                        <div class="lg:col-span-1">
-                            <div class="border border-gray-200 rounded-xl shadow-sm p-6 sticky">
-                                <div class="mb-4">
-                                    <div class="text-3xl font-bold text-blue-600 mb-2">{{ number_format($course->price) }} VND</div>
-                                    <div class="flex items-center text-sm text-gray-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span>Truy cập trọn đời</span>
-                                    </div>
-                                </div>
-
-                                @auth
-                                @if(!auth()->user()->courses->contains($course->id))
-                                <form action="{{ route('cart.add', $course) }}" method="POST" class="mb-4">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-150 shadow-md hover:shadow-lg flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        Thêm vào giỏ hàng
-                                    </button>
-                                </form>
-
-                                <form action="{{ route('cart.buy', $course) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 px-4 rounded-lg transition duration-150">
-                                        Mua ngay
-                                    </button>
-                                </form>
-
-
-                                @else
-                                <a href="{{ route('course.learn', $course->id) }}" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-150 shadow-md hover:shadow-lg flex items-center justify-center mb-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Bắt đầu học
-                                </a>
-                                @endif
-                                @else
-                                <a href="{{ route('login') }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-150 shadow-md hover:shadow-lg flex items-center justify-center mb-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                                    </svg>
-                                    Đăng nhập để đăng ký
-                                </a>
-                                @endauth
-
-                                <div class="divide-y divide-gray-200">
-                                    <div class="py-4">
-                                        <h3 class="font-medium text-gray-800 mb-2">Khóa học này bao gồm:</h3>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center text-sm text-gray-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <div class="divide-y divide-gray-200 mt-4">
+                                        <div class="py-4">
+                                            <h3 class="font-medium text-gray-800 mb-2">Khóa học bao gồm:</h3>
+                                            {{-- List items --}}
+                                            <ul class="space-y-2 text-sm text-gray-600">
+                                                <li class="flex items-center"><svg class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Tài liệu học tập</li>
+                                            </ul>
+                                        </div>
+                                        <div class="py-4">
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" 
+                                               target="_blank" 
+                                               class="flex items-center justify-center w-full text-blue-600 hover:text-blue-800 font-medium cursor-pointer p-2 rounded-lg hover:bg-blue-50">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                                                 </svg>
-                                                10 giờ video bài giảng
-                                            </li>
-                                            <li class="flex items-center text-sm text-gray-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                20 bài tập thực hành
-                                            </li>
-                                            <li class="flex items-center text-sm text-gray-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                Tài liệu học tập
-                                            </li>
-                                            <li class="flex items-center text-sm text-gray-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                Chứng chỉ hoàn thành
-                                            </li>
-                                            <li class="flex items-center text-sm text-gray-600">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                Hỗ trợ trực tuyến
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="py-4">
-                                        <button class="flex items-center justify-center w-full text-blue-600 hover:text-blue-800 font-medium">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                            </svg>
-                                            Chia sẻ khóa học này
-                                        </button>
+                                                Chia sẻ lên Facebook
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -217,24 +153,24 @@
                 </div>
             </div>
         </div>
-    </div>
-</x-app-layout>
+    </x-app-layout>
 @else
-<p>Khóa học không tồn tại.</p>
+    <p>Khóa học không tồn tại.</p>
 @endif
 
+{{-- Schema.org script --}}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
   "@type": "Product",
-  "name": "{{ $course->name }}",
-  "description": "{{ Str::limit($course->description, 150) }}",
-  "sku": "{{ $course->id }}",
+  "name": "{{ $course->name ?? '' }}",
+  "description": "{{ Str::limit($course->description ?? '', 150) }}",
+  "sku": "{{ $course->id ?? '' }}",
   "offers": {
     "@type": "Offer",
     "url": "{{ url()->current() }}",
     "priceCurrency": "VND",
-    "price": "{{ $course->price }}",
+    "price": "{{ $course->price ?? 0 }}",
     "availability": "https://schema.org/InStock"
   }
 }

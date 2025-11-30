@@ -33,14 +33,13 @@
         <meta property="og:url" content="{{ url()->current() }}">
         <meta property="og:title" content="@yield('title', config('app.name'))">
         <meta property="og:description" content="@yield('meta_description', 'Mô tả mặc định cho website của bạn.')">
-        <meta property="og:image" content="@yield('meta_image', asset('images/default-share-image.jpg'))">
+        <meta property="og:image" content="@yield('meta_image', asset('Images/images.png'))">
 
         {{-- TWITTER CARDS --}}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="@yield('title', config('app.name'))">
         <meta name="twitter:description" content="@yield('meta_description', 'Mô tả mặc định.')">
-        <meta name="twitter:image" content="@yield('meta_image', asset('images/default-share-image.jpg'))">
-
+        <meta name="twitter:image" content="@yield('meta_image', asset('Images/images.png'))">
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q1GKH3QN9"></script>
@@ -138,6 +137,32 @@
             </script>
             <!--End of Tawk.to Script-->
         </div>
+
+        <div id="fb-root"></div>
+            <div id="fb-customer-chat" class="fb-customerchat"></div>
+
+                <script>
+                var chatbox = document.getElementById('fb-customer-chat');
+                chatbox.setAttribute("page_id", "DÁN_ID_PAGE_CUA_BAN_VÀO_ĐÂY"); // <--- THAY ID Ở ĐÂY
+                chatbox.setAttribute("attribution", "biz_inbox");
+                </script>
+
+                <script>
+                window.fbAsyncInit = function() {
+                    FB.init({
+                    xfbml            : true,
+                    version          : 'v18.0' // Phiên bản mới nhất
+                    });
+                };
+
+                (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+                </script>
     </body>
 
     @include('layouts.footer')
