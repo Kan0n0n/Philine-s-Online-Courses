@@ -45,7 +45,7 @@
                             <div class="bg-white/20 p-6 rounded-xl backdrop-blur-sm shadow-xl">
                                 <div class="relative">
                                     <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg blur-sm opacity-75 animate-pulse"></div>
-                                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Students learning" class="rounded-lg shadow-2xl relative z-10">
+                                    <img src="https://img.ifunny.co/images/c492c3e00967c5c2fe88d32e226f8611bbe1996f8cd9948155d8da0c83b4ed9a_1.jpg" alt="Students learning" class="rounded-lg shadow-2xl relative z-10">
                                 </div>
                                 <div class="grid grid-cols-3 gap-4 mt-6">
                                     <div class="bg-white/20 p-4 rounded-lg backdrop-blur-sm shadow-lg">

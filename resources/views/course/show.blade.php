@@ -46,6 +46,67 @@
                 ];
             }, $faqs)
         ];
+        $courseSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Course',
+            'name' => $course->name,
+            'description' => Str::limit($course->description ?? '', 300),
+            'provider' => [
+                '@type' => 'Organization',
+                'name' => config('app.name'),
+                'sameAs' => url('/'),
+            ],
+            'educationalLevel' => 'Grade ' . ($course->grade ?? ''),
+            'courseCode' => 'COURSE-' . $course->id,
+            'image' => $thumbnailUrl,
+            'url' => url()->current(),
+        ];
+
+        // Product + Offer for price
+        $productSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $course->name,
+            'description' => Str::limit($course->description ?? '', 300),
+            'image' => $thumbnailUrl,
+            'sku' => 'COURSE-' . $course->id,
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => config('app.name'),
+            ],
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string) ($course->price ?? 0),
+                'priceCurrency' => 'VND',
+                'availability' => 'https://schema.org/InStock',
+                'url' => url()->current(),
+            ],
+        ];
+
+        $breadcrumbsSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Trang chủ',
+                    'item' => route('welcome'),
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => 'Khóa học',
+                    'item' => route('category.index'),
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 3,
+                    'name' => $course->name,
+                    'item' => url()->current(),
+                ],
+            ],
+        ];
     @endphp
 
     {{-- 2. SEO SECTION: Pass data to Layout --}}
@@ -234,25 +295,15 @@
 
 {{-- Schema.org script --}}
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org/",
-        "@type": "Course",  
-        "name": "{{ $course->name ?? '' }}",
-        "description": "{{ Str::limit($course->description ?? '', 200) }}",
-        "provider": {
-            "@type": "Organization",
-            "name": "Philine's Course Page",
-            "sameAs": "{{ url('/') }}"
-        },
-        "offers": {
-            "@type": "Offer",
-            "url": "{{ url()->current() }}",
-            "priceCurrency": "VND", 
-            "price": "{{ (int)($course->price ?? 0) }}", 
-            "availability": "https://schema.org/InStock",
-            "category": "{{ $course->category->name ?? 'General' }}"
-        }
-    }
-
-    {!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+{!! json_encode($courseSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
 </script>
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode($breadcrumbsSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
+</script>
+<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=692c78ff4bb269982e55aa5f&product=sop' async='async'></script>

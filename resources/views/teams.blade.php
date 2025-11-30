@@ -43,11 +43,11 @@
                     <!-- Leader 1 -->
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 text-center group hover:scale-105 transform border border-gray-100">
                         <div class="relative w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="CEO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                            <img src="{{ asset('Images/tai.png') }}" alt="CEO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Nguyễn Văn Anh</h3>
-                        <p class="text-indigo-600 font-medium mb-3">Giám đốc điều hành</p>
-                        <p class="text-gray-600 mb-4">Hơn 15 năm kinh nghiệm trong lĩnh vực giáo dục và công nghệ. Tốt nghiệp Tiến sĩ Giáo dục tại Đại học Harvard.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Trần Đức Tài</h3>
+                        <p class="text-indigo-600 font-medium mb-3">uwu</p>
+                        <p class="text-gray-600 mb-4">Nande Haruhikage yatta no!!!</p>
                         <div class="flex justify-center space-x-3">
                             <a href="#" class="text-gray-500 hover:text-indigo-600 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -70,11 +70,11 @@
                     <!-- Leader 2 -->
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 text-center group hover:scale-105 transform border border-gray-100">
                         <div class="relative w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="COO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                            <img src="{{ asset('Images/sang.png') }}" alt="COO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Trần Thị Bình</h3>
-                        <p class="text-indigo-600 font-medium mb-3">Giám đốc vận hành</p>
-                        <p class="text-gray-600 mb-4">Chuyên gia quản lý giáo dục với hơn 10 năm kinh nghiệm. Tốt nghiệp Thạc sĩ Quản trị Kinh doanh tại Đại học Stanford.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Nguyễn Ngọc Sang</h3>
+                        <p class="text-indigo-600 font-medium mb-3">Shark</p>
+                        <p class="text-gray-600 mb-4">Ae duyệt binh tổng phím ...</p>
                         <div class="flex justify-center space-x-3">
                             <a href="#" class="text-gray-500 hover:text-indigo-600 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -97,11 +97,11 @@
                     <!-- Leader 3 -->
                     <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 text-center group hover:scale-105 transform border border-gray-100">
                         <div class="relative w-40 h-40 mx-auto mb-6 overflow-hidden rounded-full">
-                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="CTO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                            <img src="{{ asset('Images/dinh.png') }}" alt="CTO" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Lê Văn Cường</h3>
-                        <p class="text-indigo-600 font-medium mb-3">Giám đốc công nghệ</p>
-                        <p class="text-gray-600 mb-4">Chuyên gia công nghệ giáo dục với hơn 12 năm kinh nghiệm. Tốt nghiệp Thạc sĩ Khoa học Máy tính tại MIT.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1 group-hover:text-indigo-600 transition-colors duration-300">Lê Quang Định</h3>
+                        <p class="text-indigo-600 font-medium mb-3">Meeting dza lone dza wei</p>
+                        <p class="text-gray-600 mb-4">wHY MA EVEN HERE ....</p>
                         <div class="flex justify-center space-x-3">
                             <a href="#" class="text-gray-500 hover:text-indigo-600 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@
             <div class="container mx-auto px-4 md:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-800 mb-4">Đội ngũ giảng viên</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Những chuyên gia hàng đầu trong lĩnh vực giáo dục</p>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Random people on dza Internet ...</p>
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

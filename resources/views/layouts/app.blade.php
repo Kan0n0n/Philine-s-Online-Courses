@@ -50,6 +50,8 @@
 
         gtag('config', 'G-1Q1GKH3QN9');
         </script>
+
+        <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=692c78ff4bb269982e55aa5f&product=sop' async='async'></script>
     </head>
     <body class="font-sans antialiased">
 

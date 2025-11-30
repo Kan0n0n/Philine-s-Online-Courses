@@ -9,7 +9,7 @@
                         <div class="h-12 w-16 transform transition-transform duration-300 hover:scale-105 flex items-center justify-center">
                             <img src="{{ asset('Images/MyneWorkshopCrest.svg') }}" alt="Logo" class="h-full w-full object-contain">
                         </div>
-                        <span class="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 hidden sm:inline-block">Philine's Online Courses</span>
+                        <span class="font-bold text-lg text-transparent hidden sm:inline-block" style="color: #A96800">Philine's Online Courses</span>
                     </a>
                 </div>
 
