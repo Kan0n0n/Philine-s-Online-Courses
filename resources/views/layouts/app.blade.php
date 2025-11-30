@@ -143,7 +143,7 @@
 
                 <script>
                 var chatbox = document.getElementById('fb-customer-chat');
-                chatbox.setAttribute("page_id", "DÁN_ID_PAGE_CUA_BAN_VÀO_ĐÂY"); // <--- THAY ID Ở ĐÂY
+                chatbox.setAttribute("page_id", "61584035207909"); // <--- THAY ID Ở ĐÂY
                 chatbox.setAttribute("attribution", "biz_inbox");
                 </script>
 
