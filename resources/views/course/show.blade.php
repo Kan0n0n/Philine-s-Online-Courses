@@ -16,6 +16,10 @@
     @section('title', $course->name)
     @section('meta_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 155))
     @section('meta_image', $thumbnailUrl) 
+
+    @section('og_title', $course->name)
+    @section('og_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 200))
+    @section('og_image', $thumbnailUrl)
     
     {{-- 3. CONTENT: Render the page --}}
     <x-app-layout>
