@@ -34,13 +34,14 @@ class AdminCourseController extends Controller
             'category_id' => 'required|exists:categories,id',
             'grade' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
             'course_details' => 'required|array|min:1',
             'course_details.*.name' => 'required|string|max:255',
             'course_details.*.content' => 'required|url',
             'course_details.*.description' => 'required|string',
         ]);
 
-        $data = $request->only(['name', 'category_id', 'grade', 'price']);
+        $data = $request->only(['name', 'category_id', 'grade', 'price', 'description']);
         $data['is_deleted'] = false;
         $course = Course::create($data);
 
@@ -69,6 +70,7 @@ class AdminCourseController extends Controller
             'category_id' => 'required|exists:categories,id',
             'grade' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
             'course_details' => 'required|array|min:1',
             'course_details.*.id' => 'nullable|exists:course_details,id',
             'course_details.*.name' => 'required|string|max:255',
@@ -76,7 +78,7 @@ class AdminCourseController extends Controller
             'course_details.*.description' => 'required|string',
         ]);
 
-        $data = $request->only(['name', 'category_id', 'grade', 'price']);
+        $data = $request->only(['name', 'category_id', 'grade', 'price', 'description']);
         $course->update($data);
 
         $existingDetailIds = $course->coursedetails()->pluck('id')->toArray();

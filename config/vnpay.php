@@ -5,5 +5,6 @@ return [
     // url of payment
     'url' => 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
     'api_url' => 'http://sandbox.vnpayment.vn/merchant_webapi/merchant.html',
-    'return_url' => 'http://localhost:8000/return-vnpay',
+    // 'return_url' => 'http://localhost:8000/return-vnpay',
+    'return_url' => env('VNPAY_RETURN_URL', 'http://localhost:8000/return-vnpay'),
 ];

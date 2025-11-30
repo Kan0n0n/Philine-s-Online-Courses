@@ -22,17 +22,24 @@
         <link rel="canonical" href="{{ url()->current() }}" />
 
         {{-- META DESCRIPTION FIX --}}
-        <meta name="description" content="@yield('meta_description', 'This is the default description of my shop.')">
+        <meta name="description" content="@yield('meta_description', 'Chào mừng bạn đến với web bán khóa học online xịn nhất vũ trụ!.')">
         
         {{-- META KEYWORDS FIX --}}
-        <meta name="keywords" content="@yield('meta_keywords', 'course, education, learn, online')">
+        <meta name="keywords" content="@yield('meta_keywords', 'course, education, learn, online, tutorials, học, khóa học, trực tuyến, hướng dẫn')">
 
         {{-- SOCIAL SHARING TAGS (Open Graph) --}}
         <meta property="og:title" content="@yield('og_title', config('app.name', 'Laravel'))" />
-        <meta property="og:description" content="@yield('og_description', 'This is the default description of my shop.')" />
+        <meta property="og:description" content="@yield('og_description', 'Chào mừng bạn đến với web bán khóa học online xịn nhất vũ trụ!.')" />
         <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="@yield('og_image', asset('Images/images.png'))" />
+
+        {{-- SOCIAL SHARING TAGS (Twitter Cards) --}}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@philinesylvie"> 
+        <meta name="twitter:title" content="@yield('og_title', config('app.name'))">
+        <meta name="twitter:description" content="@yield('og_description', 'Chào mừng bạn đến với web bán khóa học online xịn nhất vũ trụ!.')">
+        <meta name="twitter:image" content="@yield('og_image', asset('Images/images.png'))">
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-1Q1GKH3QN9"></script>

@@ -10,14 +10,50 @@
             $videoId = $match[1];
             $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg"; 
         }
+
+        // 1. Define your FAQs here (Easy to edit text)
+        $faqs = [
+            [
+                'question' => 'Khóa học này dành cho ai?',
+                'answer' => 'Khóa học được thiết kế cho học sinh từ lớp 6 đến lớp 12 muốn nâng cao kiến thức và kỹ năng trong môn học tương ứng.' 
+            ],
+            [
+                'question' => 'Tôi có được cấp chứng chỉ sau khi hoàn thành không?',
+                'answer' => 'Có. Sau khi hoàn thành 100% bài học và bài kiểm tra cuối khóa, hệ thống sẽ tự động cấp chứng chỉ hoàn thành khóa học cho bạn.'
+            ],
+            [
+                'question' => 'Tôi có thể xem lại bài học trong bao lâu?',
+                'answer' => 'Bạn được quyền truy cập trọn đời (Lifetime Access). Bạn có thể xem lại bất cứ lúc nào và bao nhiêu lần tùy thích.'
+            ],
+            [
+                'question' => 'Nếu tôi gặp khó khăn trong quá trình học thì sao?',
+                'answer' => 'Chúng tôi có nhóm hỗ trợ riêng cho học viên. Giảng viên và đội ngũ trợ giảng sẽ giải đáp thắc mắc của bạn trong vòng 24h.'
+            ]
+        ];
+
+        // 2. Prepare Schema for Google (Auto-generated from above)
+        $faqSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(function($faq) {
+                return [
+                    '@type' => 'Question',
+                    'name' => $faq['question'],
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => $faq['answer']
+                    ]
+                ];
+            }, $faqs)
+        ];
     @endphp
 
     {{-- 2. SEO SECTION: Pass data to Layout --}}
-    @section('title', $course->name)
-    @section('meta_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 155))
+    @section('title','Khóa học ' . $course->name)
+    @section('meta_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 200))
     @section('meta_image', $thumbnailUrl) 
 
-    @section('og_title', $course->name)
+    @section('og_title','Khóa học ' . $course->name)
     @section('og_description', Str::limit($course->description ?? 'Học khóa học ' . $course->name . ' online.', 200))
     @section('og_image', $thumbnailUrl)
     
@@ -32,15 +68,16 @@
         <div class="py-8">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="p-6 bg-white border-b border-gray-200" itemscope itemtype="https://schema.org/Course">
+                        <meta itemprop="provider" content="Philine's Course Page">
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div class="lg:col-span-2">
                                 <div class="rounded-xl overflow-hidden shadow-lg mb-6">
                                     {{-- USE THE VARIABLE WE CALCULATED AT TOP --}}
-                                    <img src="{{ $thumbnailUrl }}" alt="Video Thumbnail" class="w-full aspect-video object-cover">
+                                    <img itemprop="image" src="{{ $thumbnailUrl }}" alt="Video Thumbnail" class="w-full aspect-video object-cover">
                                 </div>
 
-                                <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ $course->name }}</h1>
+                                <h1 itemprop="name" class="text-2xl font-bold text-gray-800 mb-4">{{ $course->name }}</h1>
                                 
                                 {{-- ... (Keep your Course Info: Category, Grade, Time) ... --}}
                                 <div class="flex items-center mb-4 text-sm text-gray-600">
@@ -60,7 +97,7 @@
 
                                 <div class="mb-8">
                                     <h2 class="text-lg font-semibold mb-2 text-gray-800">Mô tả khóa học</h2>
-                                    <p class="text-gray-600" style="text-align: justify; line-height: 1.5;">
+                                    <p itemprop="description" class="text-gray-600" style="text-align: justify; line-height: 1.5;">
                                         {!! nl2br(e($course->description ?? '')) !!}
                                     </p>
                                 </div>
@@ -97,6 +134,39 @@
                                         @empty
                                             <p class="text-gray-600">Chưa có nội dung chi tiết.</p>
                                         @endforelse
+                                    </div>
+                                </div>
+
+                                <div class="mt-12 mb-8">
+                                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Câu hỏi thường gặp</h2>
+                                    
+                                    <div class="space-y-4">
+                                        @foreach($faqs as $index => $faq)
+                                            <div x-data="{ active: false }" class="border border-gray-200 rounded-lg bg-white overflow-hidden">
+                                                <button 
+                                                    @click="active = !active" 
+                                                    class="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-gray-800 hover:bg-gray-50 transition-colors duration-150 focus:outline-none"
+                                                >
+                                                    <span>{{ $faq['question'] }}</span>
+                                                    {{-- Icon rotates when open --}}
+                                                    <svg :class="{'rotate-180': active}" class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </button>
+                                                
+                                                {{-- Answer Area --}}
+                                                <div 
+                                                    x-show="active" 
+                                                    x-collapse 
+                                                    class="px-6 pb-4 text-gray-600 leading-relaxed border-t border-gray-100"
+                                                    style="display: none;"
+                                                >
+                                                    <div class="pt-4">
+                                                        {{ $faq['answer'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -164,18 +234,25 @@
 
 {{-- Schema.org script --}}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": "{{ $course->name ?? '' }}",
-  "description": "{{ Str::limit($course->description ?? '', 150) }}",
-  "sku": "{{ $course->id ?? '' }}",
-  "offers": {
-    "@type": "Offer",
-    "url": "{{ url()->current() }}",
-    "priceCurrency": "VND",
-    "price": "{{ $course->price ?? 0 }}",
-    "availability": "https://schema.org/InStock"
-  }
-}
+    {
+        "@context": "https://schema.org/",
+        "@type": "Course",  
+        "name": "{{ $course->name ?? '' }}",
+        "description": "{{ Str::limit($course->description ?? '', 200) }}",
+        "provider": {
+            "@type": "Organization",
+            "name": "Philine's Course Page",
+            "sameAs": "{{ url('/') }}"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": "{{ url()->current() }}",
+            "priceCurrency": "VND", 
+            "price": "{{ (int)($course->price ?? 0) }}", 
+            "availability": "https://schema.org/InStock",
+            "category": "{{ $course->category->name ?? 'General' }}"
+        }
+    }
+
+    {!! json_encode($faqSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
 </script>

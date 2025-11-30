@@ -62,6 +62,13 @@
                         @enderror
                     </div>
                 </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-gray-700 font-medium mb-2">Course Description</label>
+                    <textarea name="description" id="description" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-purple-500 transition-all @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                    @error('description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
         </div>
 
